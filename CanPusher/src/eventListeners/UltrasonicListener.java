@@ -1,5 +1,5 @@
 package eventListeners;
 
 public interface UltrasonicListener {
-	public abstract void objectdetected();
+	public abstract void objectDetected();
 }

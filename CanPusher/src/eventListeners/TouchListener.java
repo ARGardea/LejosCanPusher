@@ -1,7 +1,7 @@
 package eventListeners;
 
 public interface TouchListener {
-	public abstract void Pressed();
-	public abstract void Released();
+	public abstract void pressed();
+	public abstract void released();
 	
 }

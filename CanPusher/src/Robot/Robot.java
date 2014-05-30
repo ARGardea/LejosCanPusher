@@ -9,22 +9,34 @@ import eventListeners.UltrasonicListener;
 public class Robot implements BoundaryListener, TimeLimitListener,
 		TimerListener, TouchListener, UltrasonicListener {
 
+	private RobotState currentState;
+	private SoundPlayer soundPlayer;
+	
+	public Robot() { 
+		currentState = RobotState.DORMANT;
+		soundPlayer = new SoundPlayer();
+		
+	}
+	
+	public void start() {
+		currentState = RobotState.SEARCHING;
+	}
+	
 	@Override
-	public void objectdetected()
+	public void objectDetected()
+	{
+		
+	}
+
+	@Override
+	public void pressed()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void Pressed()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void Released()
+	public void released()
 	{
 		// TODO Auto-generated method stub
 		
@@ -54,5 +66,15 @@ public class Robot implements BoundaryListener, TimeLimitListener,
 }
 
 enum RobotState{
+	DORMANT, 
+	FORWARD, 
+	BACKWARD, 
+	SEARCHING, 
+	PUSHING,
+	FINISHED, 
+	FAILED;
 	
+	public RobotState pressed(Robot robot) {
+		return this;
+	}
 }

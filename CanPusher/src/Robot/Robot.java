@@ -1,3 +1,4 @@
+
 package Robot;
 
 import eventListeners.BoundaryListener;
@@ -20,47 +21,56 @@ public class Robot implements BoundaryListener, TimeLimitListener,
 	
 	public void start() {
 		currentState = RobotState.SEARCHING;
+		rotate();
 	}
 	
+	public void rotate() {
+		Motor.B.forward();
+		Motor.C.backward();
+	}
+
+	public void forward() { 
+		Motor.B.forward();
+		Motor.C.forward();
+	}
+	
+	public void backward() {
+		Motor.B.backward();
+		Motor.C.backward();
+	}
+	
+	public void stop() {
+		Motor.B.stop();
+		Motor.C.stop();
+	}
 	@Override
-	public void objectDetected()
-	{
-		
+	public void objectDetected() {
+		currentState = currentState.objectDetected(this);
 	}
 
 	@Override
-	public void pressed()
-	{
-		// TODO Auto-generated method stub
-		
+	public void pressed() {
+		currentState = currentState.pressed(this);
 	}
 
 	@Override
-	public void released()
-	{
-		// TODO Auto-generated method stub
-		
+	public void released() {
+		currentState = currentState.released(this);
 	}
 
 	@Override
-	public void timeUp()
-	{
-		// TODO Auto-generated method stub
-		
+	public void timeUp() {
+		currentState = currentState.timeUp(this);
 	}
 
 	@Override
-	public void timerOut()
-	{
-		// TODO Auto-generated method stub
-		
+	public void timerOut() {
+		currentState = currentState.timerOut(this);
 	}
 
 	@Override
-	public void boundaryDetected()
-	{
-		// TODO Auto-generated method stub
-		
+	public void boundaryDetected() {
+		currentState = currentState.boundaryDetected(this);
 	}
 	
 }
@@ -75,6 +85,26 @@ enum RobotState{
 	FAILED;
 	
 	public RobotState pressed(Robot robot) {
+		return this;
+	}
+	
+	public RobotState released(Robot robot) {
+		return this;
+	}
+	
+	public RobotState timeUp(Robot robot) {
+		return this;
+	}
+	
+	public RobotState timerOut(Robot robot) {
+		return this;
+	}
+	
+	public RobotState boundaryDetected(Robot robot) {
+		return this;
+	}
+	
+	public RobotState objectDetected(Robot robot) {
 		return this;
 	}
 }

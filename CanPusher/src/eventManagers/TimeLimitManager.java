@@ -13,19 +13,17 @@ public class TimeLimitManager extends Thread{
 		long numMiliSeconds = numSeconds * 1000;
 		targetTime = currentTime + numMiliSeconds;
 		listeners = new ArrayList<TimeLimitListener>();
-		
-		start();
 	}
 	
-	public void register(TimeLimitListener listener) { 
+	public synchronized void register(TimeLimitListener listener) { 
 		listeners.add(listener);
 	}
 	
-	public void unregister(TimeLimitListener listener) { 
+	public synchronized void unregister(TimeLimitListener listener) { 
 		listeners.remove(listener);
 	}
 	
-	public void Notify() {
+	public synchronized void Notify() {
 		for(TimeLimitListener l : listeners) {
 			l.timerOut();
 		}
@@ -37,6 +35,12 @@ public class TimeLimitManager extends Thread{
 		boolean running = true;
 		
 		while(running) {
+//			try {
+//				sleep((long)1);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			currentTime = System.currentTimeMillis();
 			if(currentTime >= targetTime) {
 				Notify();

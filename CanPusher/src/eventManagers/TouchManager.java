@@ -3,6 +3,7 @@ package eventManagers;
 import java.util.ArrayList;
 import java.util.List;
 
+import lejos.nxt.*;
 import eventListeners.TouchListener;
 
 public class TouchManager extends Thread{
@@ -13,15 +14,15 @@ public class TouchManager extends Thread{
 		start();
 	}
 	
-	public void register(TouchListener listener) {
+	public synchronized void register(TouchListener listener) {
 		listeners.add(listener);
 	}
 	
-	public void unregister(TouchListener listener) {
+	public synchronized void unregister(TouchListener listener) {
 		listeners.remove(listener);
 	}
 	
-	public void notify(boolean isPressed) {
+	public synchronized void notify(boolean isPressed) {
 		if(isPressed) {
 			for(TouchListener l : listeners) {
 				l.pressed();
@@ -36,12 +37,17 @@ public class TouchManager extends Thread{
 	@Override
 	public void run() {
 		boolean wasPressed = false;
-		
-		//TOUCH SENSOR? 
+		TouchSensor sensor = new TouchSensor(SensorPort.S4);
 		boolean isPressed = false;
 		
 		while(true) {
-			isPressed = touchSensor.isPressed();
+//			try {
+//				sleep((long)1);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			isPressed = sensor.isPressed();
 			if(wasPressed != isPressed) {
 				notify(isPressed);
 			}

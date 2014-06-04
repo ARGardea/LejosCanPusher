@@ -18,8 +18,9 @@ public class IntervalTimeManager extends Thread {
 		start();
 	}
 	
-	public void setIntervalSeconds(long numSeconds) {
+	public synchronized void setIntervalSeconds(long numSeconds) {
 		intervalSeconds = numSeconds;
+		updateTargetTime();
 	}
 	
 	public void updateTargetTime() { 
@@ -28,15 +29,15 @@ public class IntervalTimeManager extends Thread {
 		targetTime = currenttime + numMiliSeconds;
 	}
 	
-	public void register(TimerListener listener) { 
+	public synchronized void register(TimerListener listener) { 
 		listeners.add(listener);
 	}
 	
-	public void unregister(TimerListener listener) {
+	public synchronized void unregister(TimerListener listener) {
 		listeners.add(listener);
 	}
 	
-	public void Notify() {
+	public synchronized void Notify() {
 		for(TimerListener l : listeners) {
 			l.timeUp();
 		}
@@ -47,6 +48,12 @@ public class IntervalTimeManager extends Thread {
 		long currentTime = 0;
 		boolean running = true;
 		while(running) {
+//			try {
+//				sleep((long)1);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			currentTime = System.currentTimeMillis();
 			if(currentTime >= targetTime) {
 				Notify();

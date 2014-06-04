@@ -1,10 +1,11 @@
-package eventManagers;
+package tests;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lejos.nxt.*;
 import eventListeners.TouchListener;
+import eventManagers.ITouchable;
 
 public class TouchManager extends Thread{
 	private List<TouchListener> listeners;
